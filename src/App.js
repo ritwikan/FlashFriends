@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import { getUserData } from "./database";
 import Home from "./Home";
+import "@fontsource/jetbrains-mono";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -24,8 +25,8 @@ function App() {
   return (
     <div>
       {!success ? (
-        <div>
-          <h1>Login Page</h1>
+        <div className="login-user">
+          <h1>Flash Friends Login</h1>
           <div>
             <label>Username:</label>
             <input
