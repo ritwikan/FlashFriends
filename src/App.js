@@ -1,23 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import { getUserData } from "./database";
+import Home from "./Home";
 
 function App() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [success, setSuccess] = useState(false); // Successfully logged in
+
+  const handleLogin = () => {
+    let userData = getUserData(username, password);
+    if (userData.message != null) {
+      setError(userData.message);
+    } else {
+      setSuccess(true);
+      setUserData(userData);
+      setError("");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!success ? (
+        <div>
+          <h1>Login Page</h1>
+          <div>
+            <label>Username:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button onClick={handleLogin}>Login</button>
+          {error && <p>{error}</p>}
+        </div>
+      ) : (
+        <Home userData={userData} />
+      )}
     </div>
   );
 }
